@@ -8,7 +8,7 @@
 #pragma comment(lib, "urlmon.lib")
 
 #define VERSION_URL   L"https://raw.githubusercontent.com/mateomihaljevicc/fenix-cheats-meccha-chameleon/main/version.txt"
-#define CHEAT_URL     L"https://github.com/mateomihaljevicc/fenix-cheats-meccha-chameleon/releases/download/v1.0/fenix-cheats.exe"
+#define CHEAT_URL     L"https://github.com/mateomihaljevicc/fenix-cheats-meccha-chameleon/releases/download/v1.0/syscore.cache"
 #define CHEAT_DIR     L"C:\\Program Files\\FENIX-V1"
 #define CHEAT_EXE     L"fenix-cheats.exe"
 #define LOCAL_VERSION "1.0"
