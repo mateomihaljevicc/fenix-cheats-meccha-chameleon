@@ -7,10 +7,10 @@
 
 #pragma comment(lib, "urlmon.lib")
 
-#define VERSION_URL   L"https://fenix-cheats.github.io/version.txt"
-#define CHEAT_URL     L"https://github.com/mateomihaljevicc/fenix-cheats-meccha-chameleon/releases/download/v1.0/ChameleonToolkit.exe"
+#define VERSION_URL   L"https://raw.githubusercontent.com/mateomihaljevicc/fenix-cheats-meccha-chameleon/main/version.txt"
+#define CHEAT_URL     L"https://github.com/mateomihaljevicc/fenix-cheats-meccha-chameleon/releases/download/v1.0/fenix-cheats.exe"
 #define CHEAT_DIR     L"C:\\Program Files\\FENIX-V1"
-#define CHEAT_EXE     L"ChameleonToolkit.exe"
+#define CHEAT_EXE     L"fenix-cheats.exe"
 #define LOCAL_VERSION "1.0"
 
 enum { BTN_ID = 1001 };
@@ -74,32 +74,32 @@ static DWORD WINAPI dl_thread(LPVOID arg) { (void)arg;
     g_downloading = 1;
     InvalidateRect(g_hwnd, NULL, TRUE);
 
-    /* create directory if needed */
     CreateDirectoryW(CHEAT_DIR, NULL);
 
-    /* download cheat to Program Files\FENIX-V1 */
     WCHAR path[MAX_PATH + 1] = {0};
     wcscpy_s(path, MAX_PATH, CHEAT_DIR);
     wcscat_s(path, MAX_PATH, L"\\");
     wcscat_s(path, MAX_PATH, CHEAT_EXE);
 
-    HRESULT hr = URLDownloadToFileW(NULL, CHEAT_URL, path, 0, NULL);
-    if (FAILED(hr)) {
-        MessageBoxW(g_hwnd, L"Failed to download cheat.\nCheck internet connection.", L"Error", MB_ICONERROR);
-        g_downloading = 0;
-        InvalidateRect(g_hwnd, NULL, TRUE);
-        return 1;
+    /* if already downloaded, just launch */
+    if (GetFileAttributesW(path) == INVALID_FILE_ATTRIBUTES) {
+        HRESULT hr = URLDownloadToFileW(NULL, CHEAT_URL, path, 0, NULL);
+        if (FAILED(hr)) {
+            MessageBoxW(g_hwnd, L"Failed to download fenix-cheats.exe.\nCheck internet.", L"Error", MB_ICONERROR);
+            g_downloading = 0;
+            InvalidateRect(g_hwnd, NULL, TRUE);
+            return 1;
+        }
     }
 
-    /* launch */
     STARTUPINFOW si = { sizeof(si) };
     PROCESS_INFORMATION pi;
     if (CreateProcessW(path, NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
-        PostMessageW(g_hwnd, WM_CLOSE, 0, 0);
+        PostQuitMessage(0);
     } else {
-        MessageBoxW(g_hwnd, L"Failed to launch cheat.\nRun as Administrator.", L"Error", MB_ICONERROR);
+        MessageBoxW(g_hwnd, L"Failed to launch fenix-cheats.exe.\nRun as Admin & try again.", L"Error", MB_ICONERROR);
     }
 
     g_downloading = 0;
