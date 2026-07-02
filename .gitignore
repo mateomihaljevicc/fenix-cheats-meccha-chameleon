@@ -1,0 +1,6 @@
+*.exe
+*.obj
+*.ilk
+*.pdb
+build_loader.bat
+adrese.txt
