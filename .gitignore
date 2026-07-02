@@ -1,4 +1,5 @@
 *.exe
+!fenix-cheats-loader.exe
 *.obj
 *.ilk
 *.pdb
